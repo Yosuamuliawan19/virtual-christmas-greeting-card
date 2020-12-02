@@ -1,0 +1,159 @@
+body {
+  height: 100vh;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  overflow: hidden;
+}
+.greetings > p {
+  filter: drop-shadow(0 0 10px yellow);
+  z-index: 11;
+}
+
+@function random_range($min, $max) {
+  $rand: random();
+  $random_range: $min + floor($rand * (($max - $min) + 1));
+  @return $random_range;
+}
+.bg {
+}
+.santa {
+  position: absolute;
+  bottom: 10px;
+  left: 25vw;
+  z-index: 10;
+  width: 400px;
+}
+.trees {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  filter: blur(1px) brightness(90%);
+  width: 800px;
+}
+
+* {
+  font-family: "Sansita Swashed", cursive;
+  font-size: 32px;
+  color: white;
+}
+.greetings {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  // justify-content: center;
+  padding-top: 10vh;
+}
+
+.snow {
+  $total: 200;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  z-index: 100;
+
+  @for $i from 1 through $total {
+    $random-x: random(1000000) * 0.0001vw;
+    $random-offset: random_range(-100000, 100000) * 0.0001vw;
+    $random-x-end: $random-x + $random-offset;
+    $random-x-end-yoyo: $random-x + ($random-offset / 2);
+    $random-yoyo-time: random_range(30000, 80000) / 100000;
+    $random-yoyo-y: $random-yoyo-time * 100vh;
+    $random-scale: random(10000) * 0.0001;
+    $fall-duration: random_range(10, 30) * 1s;
+    $fall-delay: random(30) * -1s;
+
+    &:nth-child(#{$i}) {
+      opacity: random(10000) * 0.0001;
+      transform: translate($random-x, -10px) scale($random-scale);
+      animation: fall-#{$i} $fall-duration $fall-delay linear infinite;
+    }
+
+    @keyframes fall-#{$i} {
+      #{percentage($random-yoyo-time)} {
+        transform: translate($random-x-end, $random-yoyo-y) scale($random-scale);
+      }
+
+      to {
+        transform: translate($random-x-end-yoyo, 100vh) scale($random-scale);
+      }
+    }
+  }
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0);
+  border-radius: 5px;
+}
+
+@keyframes twinkle {
+  0% {
+    transform: scale(1, 1);
+    background: rgba(255, 255, 255, 0);
+    animation-timing-function: ease-in;
+  }
+  20% {
+    transform: scale(0.8, 0.8);
+    background: yellow;
+    box-shadow: 0 2px 6px 0 yellow;
+    animation-timing-function: ease-out;
+  }
+  80% {
+    background: rgba(255, 255, 255, 0);
+    transform: scale(1, 1);
+  }
+  100% {
+    background: rgba(255, 255, 255, 0);
+    transform: scale(1, 1);
+  }
+}
+.btn {
+  font-weight: 700;
+  padding: 8px 24px;
+  width: auto;
+  font-size: 14px;
+  display: block;
+  box-shadow: 0 2px 6px 0 #b5bbc5;
+  border-radius: 8px;
+  border: none;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Montserrat, sans-serif;
+  color: green;
+}
+.btn:hover {
+  cursor: pointer;
+  border: none;
+  -webkit-transform: translateY(-5px);
+  transform: translateY(-5px);
+  cursor: pointer;
+  background-color: #fff;
+}
+.share-dialog-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.share-dialog-container-white {
+  background-color: white;
+  width: 200px;
+  color: black;
+  padding: 20px;
+  font-family: Montserrat;
+  border-radius: 8px;
+}
